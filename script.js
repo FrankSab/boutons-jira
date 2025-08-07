@@ -2,3 +2,4 @@ document.getElementById("open-jira-create-issue").addEventListener("click", func
   window.open("https://devfrancois.atlassian.net/secure/CreateIssue!default.jspa", "_blank");
 });
 
+
