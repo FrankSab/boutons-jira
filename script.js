@@ -29,11 +29,14 @@ document.addEventListener('DOMContentLoaded', async function () {
         return;
       }
 
-      // Change the *main Jira page* location
-      top.location.href = `/secure/CreateIssueDetails!init.jspa?pid=${dossierProject.id}&issuetype=${ptiType.id}`;
+      // Use Jira Cloud API to open modal create issue screen
+      AP.navigator.go('create-issue', {
+        pid: dossierProject.id,
+        issuetype: ptiType.id
+      });
 
     } catch (err) {
-      console.error('Error opening create issue:', err);
+      console.error('Error opening create issue modal:', err);
       alert('An error occurred. Check console for details.');
     }
   });
