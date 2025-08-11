@@ -3,15 +3,11 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!button) return;
 
   button.addEventListener('click', function () {
-    const projectId = '10001';   // Your project ID
-    const issueTypeId = '10003'; // Your issue type ID
-
-    // Make sure protocol is included!
-    const baseUrl = window.location.origin || 'https://devfrancois.atlassian.net';
-
-    top.location.href = `${baseUrl}/secure/CreateIssueDetails!init.jspa?pid=${projectId}&issuetype=${issueTypeId}`;
+    const url = 'https://devfrancois.atlassian.net/secure/CreateIssueDetails!init.jspa?pid=10001&issuetype=10003';
+    top.location.href = url;
   });
 });
+
 
 
 
