@@ -27,17 +27,19 @@ document.addEventListener('DOMContentLoaded', async function () {
         return;
       }
 
-      // Build Create Issue URL
-      const createUrl = `/secure/CreateIssue!default.jspa?pid=1001&issuetype=10003`;
+      // Build Create Issue URL for Jira Cloud
+      const createUrl = `/secure/CreateIssueDetails!init.jspa?pid=${dossierProject.id}&issuetype=${ptiType.id}`;
 
-      // Open in new tab
-      window.open(createUrl, '_blank');
+      // Navigate in same tab so Jira Cloud SPA loads the create screen
+      window.location.href = createUrl;
+
     } catch (err) {
       console.error('Error opening create issue:', err);
       alert('An error occurred. Check console for details.');
     }
   });
 });
+
 
 
 
