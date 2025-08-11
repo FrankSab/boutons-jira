@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', async function () {
   const button = document.getElementById('my-blue-btn');
+  if (!button) {
+    console.error('Button not found: #my-blue-btn');
+    return;
+  }
 
   button.addEventListener('click', async function () {
     try {
-      // Get all projects
       const projects = await AdaptavistBridge.request({
         url: '/rest/api/3/project/search',
         type: 'GET'
@@ -15,7 +18,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         return;
       }
 
-      // Get all issue types for this project
       const issueTypes = await AdaptavistBridge.request({
         url: `/rest/api/3/issuetype/project?projectId=${dossierProject.id}`,
         type: 'GET'
@@ -23,15 +25,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       const ptiType = issueTypes.find(it => it.name === 'PTI');
       if (!ptiType) {
-        alert('Issue type "PTI" not found in project "Dossier Résident".');
+        alert('Issue type "PTI" not found.');
         return;
       }
 
-      // Build Create Issue URL for Jira Cloud
-      const createUrl = `/secure/CreateIssueDetails!init.jspa?pid=${dossierProject.id}&issuetype=${ptiType.id}`;
-
-      // Navigate in same tab so Jira Cloud SPA loads the create screen
-      window.location.href = createUrl;
+      // Change the *main Jira page* location
+      top.location.href = `/secure/CreateIssueDetails!init.jspa?pid=${dossierProject.id}&issuetype=${ptiType.id}`;
 
     } catch (err) {
       console.error('Error opening create issue:', err);
@@ -39,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   });
 });
+
 
 
 
