@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         type: 'GET'
       });
 
-      const dossierProject = projects.values.find(p => p.name === 'Dossier');
+      const dossierProject = projects.values.find(p => p.name === 'Dossier Résident');
       if (!dossierProject) {
-        alert('Project "Dossier" not found.');
+        alert('Project "Dossier Résident" not found.');
         return;
       }
 
@@ -23,12 +23,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       const ptiType = issueTypes.find(it => it.name === 'PTI');
       if (!ptiType) {
-        alert('Issue type "PTI" not found in project "Dossier".');
+        alert('Issue type "PTI" not found in project "Dossier Résident".');
         return;
       }
 
       // Build Create Issue URL
-      const createUrl = `/secure/CreateIssue!default.jspa?pid=${dossierProject.id}&issuetype=${10003}`;
+      const createUrl = `/secure/CreateIssue!default.jspa?pid=1001&issuetype=10003`;
 
       // Open in new tab
       window.open(createUrl, '_blank');
