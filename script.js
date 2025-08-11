@@ -3,10 +3,11 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!button) return;
 
   button.addEventListener('click', function () {
-    const url = 'https://devfrancois.atlassian.net/secure/CreateIssueDetails!init.jspa?pid=10001&issuetype=10003';
+    const url = 'https://devfrancois.atlassian.net/secure/CreateIssue!default.jspa?pid=10001&issuetype=10003';
     top.location.href = url;
   });
 });
+
 
 
 
