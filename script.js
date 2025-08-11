@@ -6,8 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const projectId = '10001';   // Replace with your project ID
     const issueTypeId = '10003'; // Replace with your issue type ID
 
-    // Navigate Jira's main window
-    top.location.href = `/secure/CreateIssueDetails!init.jspa?pid=${projectId}&issuetype=${issueTypeId}`;
+    const baseUrl = window.location.origin; // get Jira base URL
+
+    top.location.href = `${baseUrl}/secure/CreateIssueDetails!init.jspa?pid=${projectId}&issuetype=${issueTypeId}`;
   });
 });
 
