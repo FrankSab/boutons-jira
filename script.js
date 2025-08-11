@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const baseUrl = window.location.origin; // get Jira base URL
 
-    top.location.href = `${baseUrl}/secure/CreateIssueDetails!init.jspa?pid=${projectId}&issuetype=${issueTypeId}`;
+    top.location.href = `devfrancois.atlassian.net/secure/CreateIssueDetails!init.jspa?pid=${projectId}&issuetype=${issueTypeId}`;
   });
 });
 
