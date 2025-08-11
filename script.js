@@ -6,8 +6,9 @@ AP.onReady(function () {
   }
 
   button.addEventListener('click', function () {
-    const projectId = '10001';   // your project ID
-    const issueTypeId = '10003'; // your issue type ID
+    // Replace these IDs with your own
+    const projectId = '10001';   // Your "Dossier Résident" project ID
+    const issueTypeId = '10003'; // Your "PTI" issue type ID
 
     AP.navigator.go('create-issue', {
       pid: projectId,
@@ -15,6 +16,7 @@ AP.onReady(function () {
     });
   });
 });
+
 
 
 
