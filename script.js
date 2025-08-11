@@ -3,14 +3,16 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!button) return;
 
   button.addEventListener('click', function () {
-    const projectId = '10001';   // Replace with your project ID
-    const issueTypeId = '10003'; // Replace with your issue type ID
+    const projectId = '10001';   // Your project ID
+    const issueTypeId = '10003'; // Your issue type ID
 
-    const baseUrl = window.location.origin; // get Jira base URL
+    // Make sure protocol is included!
+    const baseUrl = window.location.origin || 'https://devfrancois.atlassian.net';
 
-    top.location.href = `devfrancois.atlassian.net/secure/CreateIssueDetails!init.jspa?pid=${projectId}&issuetype=${issueTypeId}`;
+    top.location.href = `${baseUrl}/secure/CreateIssueDetails!init.jspa?pid=${projectId}&issuetype=${issueTypeId}`;
   });
 });
+
 
 
 
