@@ -1,9 +1,3 @@
-<button id="my-blue-btn" style="background:#0052cc;color:#fff;padding:8px 16px;border:none;border-radius:3px;cursor:pointer;">
-  Create PTI
-</button>
-
-<script src="https://connect-cdn.atl-paas.net/all.js"></script>
-
 <script>
   AP.whenAPIsReady(function() {
     const button = document.getElementById('my-blue-btn');
@@ -34,7 +28,7 @@
           const nomValue = data.fields.customfield_10043 || '';
           const encodedNom = encodeURIComponent(nomValue);
 
-          // Replace with your actual project and issue type IDs
+          // Replace pid and issuetype with your IDs
           const url = `/secure/CreateIssue!default.jspa?pid=10001&issuetype=10003&customfield_10043=${encodedNom}`;
 
           top.location.href = url;
