@@ -14,8 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     console.log("🔑 Current issue:", issueKey);
 
-    // Build a fallback URL in case REST fails
-    let fallbackUrl = `/secure/CreateIssueDetails!init.jspa?pid=10001&issuetype=10003`;
+    // Use window.location.origin to build absolute URL
+    const jiraBase = window.location.origin || "https://devfrancois.atlassian.net";
+
+    // Fallback URL in case REST fails
+    let fallbackUrl = `${jiraBase}/secure/CreateIssueDetails!init.jspa?pid=10001&issuetype=10003`;
     fallbackUrl += '&summary=' + encodeURIComponent("Copie de " + issueKey);
     fallbackUrl += '&description=' + encodeURIComponent("Créé depuis " + issueKey);
 
