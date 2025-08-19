@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     try {
       const response = await fetch(
-        `/rest/api/3/issue/${issueKey}?fields=summary,components,customfield_10400,customfield_10401`,
+        `/rest/api/3/issue/${issueKey}?fields=summary,components,customfield_10043,customfield_10046`,
         { method: 'GET', headers: { 'Accept': 'application/json' } }
       );
 
