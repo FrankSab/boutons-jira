@@ -8,9 +8,9 @@ document.addEventListener('DOMContentLoaded', function () {
   button.addEventListener('click', async function () {
     console.log("✅ Button clicked");
 
-    const issueKey = getIssueKeyFromUrl();
+    const issueKey = getIssueKey();
     if (!issueKey) {
-      console.error("❌ Could not detect issue key from URL");
+      console.error("❌ Could not detect issue key from URL:", window.location.href);
       return;
     }
     console.log("🔑 Current issue:", issueKey);
@@ -55,9 +55,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  function getIssueKeyFromUrl() {
-    const match = window.location.pathname.match(/\/browse\/([A-Z0-9\-]+)/);
-    return match ? match[1] : null;
+  function getIssueKey() {
+    let match = window.location.pathname.match(/\/browse\/([A-Z0-9\-]+)/);
+    if (match) return match[1];
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("selectedIssue")) return params.get("selectedIssue");
+
+    match = window.location.pathname.match(/\/issues\/([A-Z0-9\-]+)/);
+    if (match) return match[1];
+
+    return null;
   }
 });
-
