@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
   button.addEventListener('click', function () {
     console.log("✅ Button clicked");
 
-    // Get current issue key from ScriptRunner context
+    // Get issue key from ScriptRunner context
     const issueKey = window.AdaptavistBridgeContext?.context?.issueKey;
     if (!issueKey) {
       console.error("❌ Could not detect issue key from AdaptavistBridgeContext");
@@ -16,38 +16,39 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     console.log("🔑 Current issue:", issueKey);
 
-    // Fetch issue details using Atlassian Connect API
-    AP.request({
+    // Use Adaptavist Bridge to call Jira REST API
+    window.AdaptavistBridge.request({
       url: `/rest/api/3/issue/${issueKey}?fields=components,customfield_10043,customfield_10046`,
-      type: 'GET',
-      contentType: 'application/json',
-      success: function (responseText) {
-        const data = JSON.parse(responseText);
-        const fields = data.fields;
+      type: 'GET'
+    }).then(response => {
+      const data = JSON.parse(response.body);
+      const fields = data.fields;
 
-        const nom = fields.customfield_10043;           // Nom
-        const numeroChambre = fields.customfield_10046; // Numero de chambre
-        const components = (fields.components || []).map(c => c.id).join(",");
+      // Safely get values, fallback to empty string if missing
+      const nom = fields.customfield_10043 || "";
+      const numeroChambre = fields.customfield_10046 || "";
+      const components = (fields.components || []).map(c => c.id).join(",");
 
-        console.log("➡️ Nom:", nom, "Numéro:", numeroChambre, "Comps:", components);
+      console.log("➡️ Nom:", nom, "Numéro:", numeroChambre, "Comps:", components);
 
-        // Build Create Issue URL
-        let url = '/secure/CreateIssueDetails!init.jspa'
-          + '?pid=10001'   // Project ID
-          + '&issuetype=10003' // Issue type ID
-          + '&summary=' + encodeURIComponent("Copie de " + issueKey)
-          + '&description=' + encodeURIComponent("Créé depuis " + issueKey)
-          + '&customfield_10043=' + encodeURIComponent(nom || "")
-          + '&customfield_10046=' + encodeURIComponent(numeroChambre || "")
-          + (components ? '&components=' + encodeURIComponent(components) : "");
+      // Build Create Issue URL with only non-empty fields
+      let url = '/secure/CreateIssueDetails!init.jspa?pid=10001&issuetype=10003';
+      url += '&summary=' + encodeURIComponent("Copie de " + issueKey);
+      url += '&description=' + encodeURIComponent("Créé depuis " + issueKey);
+      if (nom) url += '&customfield_10043=' + encodeURIComponent(nom);
+      if (numeroChambre) url += '&customfield_10046=' + encodeURIComponent(numeroChambre);
+      if (components) url += '&components=' + encodeURIComponent(components);
 
-        console.log("🚀 Redirecting to:", url);
-        top.location.href = url;
-      },
-      error: function (xhr) {
-        console.error("❌ REST API error", xhr);
-        alert("Impossible de récupérer les informations de l’usager.");
-      }
+      console.log("🚀 Redirecting to:", url);
+      top.location.href = url;
+
+    }).catch(err => {
+      console.error("❌ REST API error", err);
+      alert("Impossible de récupérer les informations de l’usager. La page de création s'ouvrira quand même.");
+
+      // Open create screen anyway even if REST failed
+      let fallbackUrl = '/secure/CreateIssueDetails!init.jspa?pid=10001&issuetype=10003';
+      top.location.href = fallbackUrl;
     });
   });
 });
