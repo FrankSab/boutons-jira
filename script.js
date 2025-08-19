@@ -8,9 +8,10 @@ document.addEventListener('DOMContentLoaded', function () {
   button.addEventListener('click', async function () {
     console.log("✅ Button clicked");
 
-    const issueKey = getIssueKey();
+    // Get issue key directly from ScriptRunner context
+    const issueKey = window.AdaptavistBridgeContext?.context?.issueKey;
     if (!issueKey) {
-      console.error("❌ Could not detect issue key from URL:", window.location.href);
+      console.error("❌ Could not detect issue key from AdaptavistBridgeContext");
       return;
     }
     console.log("🔑 Current issue:", issueKey);
@@ -54,17 +55,4 @@ document.addEventListener('DOMContentLoaded', function () {
       alert("Impossible de récupérer les informations de l’usager. Vérifiez la console.");
     }
   });
-
-  function getIssueKey() {
-    let match = window.location.pathname.match(/\/browse\/([A-Z0-9\-]+)/);
-    if (match) return match[1];
-
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("selectedIssue")) return params.get("selectedIssue");
-
-    match = window.location.pathname.match(/\/issues\/([A-Z0-9\-]+)/);
-    if (match) return match[1];
-
-    return null;
-  }
 });
