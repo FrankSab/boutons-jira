@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
-  button.addEventListener('click', async function () {
+  button.addEventListener('click', function () {
     console.log("✅ Button clicked");
 
-    // Get issue key directly from ScriptRunner context
+    // Get current issue key from ScriptRunner context
     const issueKey = window.AdaptavistBridgeContext?.context?.issueKey;
     if (!issueKey) {
       console.error("❌ Could not detect issue key from AdaptavistBridgeContext");
@@ -16,43 +16,38 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     console.log("🔑 Current issue:", issueKey);
 
-    try {
-      const response = await fetch(
-        `/rest/api/3/issue/${issueKey}?fields=summary,components,customfield_10043,customfield_10046`,
-        { method: 'GET', headers: { 'Accept': 'application/json' } }
-      );
+    // Fetch issue details using Atlassian Connect API
+    AP.request({
+      url: `/rest/api/3/issue/${issueKey}?fields=components,customfield_10043,customfield_10046`,
+      type: 'GET',
+      contentType: 'application/json',
+      success: function (responseText) {
+        const data = JSON.parse(responseText);
+        const fields = data.fields;
 
-      console.log("🌐 REST call status:", response.status);
+        const nom = fields.customfield_10043;           // Nom
+        const numeroChambre = fields.customfield_10046; // Numero de chambre
+        const components = (fields.components || []).map(c => c.id).join(",");
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch issue data: " + response.statusText);
+        console.log("➡️ Nom:", nom, "Numéro:", numeroChambre, "Comps:", components);
+
+        // Build Create Issue URL
+        let url = '/secure/CreateIssueDetails!init.jspa'
+          + '?pid=10001'   // Project ID
+          + '&issuetype=10003' // Issue type ID
+          + '&summary=' + encodeURIComponent("Copie de " + issueKey)
+          + '&description=' + encodeURIComponent("Créé depuis " + issueKey)
+          + '&customfield_10043=' + encodeURIComponent(nom || "")
+          + '&customfield_10046=' + encodeURIComponent(numeroChambre || "")
+          + (components ? '&components=' + encodeURIComponent(components) : "");
+
+        console.log("🚀 Redirecting to:", url);
+        top.location.href = url;
+      },
+      error: function (xhr) {
+        console.error("❌ REST API error", xhr);
+        alert("Impossible de récupérer les informations de l’usager.");
       }
-
-      const data = await response.json();
-      const fields = data.fields;
-
-      const nom = fields.customfield_10043;           // Nom
-      const numeroChambre = fields.customfield_10046; // Numero de chambre
-      const components = (fields.components || []).map(c => c.id).join(",");
-
-      console.log("➡️ Nom:", nom, "Numéro:", numeroChambre, "Comps:", components);
-
-      // Build Create Issue URL
-      let url = '/secure/CreateIssueDetails!init.jspa'
-        + '?pid=10001'
-        + '&issuetype=10003'
-        + '&summary=' + encodeURIComponent("Copie de " + issueKey)
-        + '&description=' + encodeURIComponent("Créé depuis " + issueKey)
-        + '&customfield_10043=' + encodeURIComponent(nom || "")
-        + '&customfield_10046=' + encodeURIComponent(numeroChambre || "")
-        + (components ? '&components=' + encodeURIComponent(components) : "");
-
-      console.log("🚀 Redirecting to:", url);
-      top.location.href = url;
-
-    } catch (err) {
-      console.error("❌ Error building create issue URL", err);
-      alert("Impossible de récupérer les informations de l’usager. Vérifiez la console.");
-    }
+    });
   });
 });
