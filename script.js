@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     console.log("🔑 Current issue:", issueKey);
 
-    // Use window.location.origin to build absolute URL
-    const jiraBase = window.location.origin || "https://devfrancois.atlassian.net";
+    // Hardcoded Jira Cloud base URL (replace with your Jira instance)
+    const jiraBase = "https://devfrancois.atlassian.net";
 
     // Fallback URL in case REST fails
     let fallbackUrl = `${jiraBase}/secure/CreateIssueDetails!init.jspa?pid=10001&issuetype=10003`;
