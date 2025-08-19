@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
   button.addEventListener('click', function () {
     console.log("✅ Button clicked");
 
-    // Get issue key from ScriptRunner context
     const issueKey = window.AdaptavistBridgeContext?.context?.issueKey;
     if (!issueKey) {
       console.error("❌ Could not detect issue key from AdaptavistBridgeContext");
@@ -15,12 +14,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     console.log("🔑 Current issue:", issueKey);
 
-    // Build fallback URL in case REST fails
-    let fallbackUrl = '/secure/CreateIssueDetails!init.jspa?pid=10001&issuetype=10003';
+    // Build a fallback URL in case REST fails
+    let fallbackUrl = `/secure/CreateIssueDetails!init.jspa?pid=10001&issuetype=10003`;
     fallbackUrl += '&summary=' + encodeURIComponent("Copie de " + issueKey);
     fallbackUrl += '&description=' + encodeURIComponent("Créé depuis " + issueKey);
 
-    // Use Adaptavist Bridge to safely call Jira REST API
+    // If AdaptavistBridge.request is available, fetch issue fields
     if (window.AdaptavistBridge?.request) {
       window.AdaptavistBridge.request({
         url: `/rest/api/3/issue/${issueKey}?fields=components,customfield_10043,customfield_10046`,
@@ -28,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }).then(response => {
         console.log("REST response:", response);
 
-        // Parse safely
         let data = {};
         try {
           data = response && response.response ? JSON.parse(response.response) : {};
@@ -42,21 +40,22 @@ document.addEventListener('DOMContentLoaded', function () {
         const numeroChambre = fields.customfield_10046 || "";
         const components = (fields.components || []).map(c => c.id).join(",");
 
-        // Build Create Issue URL with non-empty fields
+        // Build final Create Issue URL
         let url = fallbackUrl;
         if (nom) url += '&customfield_10043=' + encodeURIComponent(nom);
         if (numeroChambre) url += '&customfield_10046=' + encodeURIComponent(numeroChambre);
         if (components) url += '&components=' + encodeURIComponent(components);
 
-        console.log("🚀 Redirecting to:", url);
-        if (window.parent) window.parent.location.href = url;
+        console.log("🚀 Opening Create Issue URL in new tab:", url);
+        window.open(url, "_blank");
+
       }).catch(err => {
         console.error("❌ REST API error, opening fallback URL", err);
-        if (window.parent) window.parent.location.href = fallbackUrl;
+        window.open(fallbackUrl, "_blank");
       });
     } else {
       console.warn("⚠️ AdaptavistBridge.request not available, opening fallback URL");
-      if (window.parent) window.parent.location.href = fallbackUrl;
+      window.open(fallbackUrl, "_blank");
     }
   });
 });
