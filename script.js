@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Fallback URL in case REST fails
     let fallbackUrl = `${jiraBase}/secure/CreateIssueDetails!init.jspa?pid=10001&issuetype=10003`;
-    fallbackUrl += '&summary=' + encodeURIComponent("Copie de " + issueKey);
-    fallbackUrl += '&description=' + encodeURIComponent("Créé depuis " + issueKey);
+    fallbackUrl += '&summary=' + encodeURIComponent(issueKey);
+    fallbackUrl += '&description=' + encodeURIComponent("Trigger =" + issueKey);
 
     // If AdaptavistBridge.request is available, fetch issue fields
     if (window.AdaptavistBridge?.request) {
