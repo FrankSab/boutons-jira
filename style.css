@@ -9,11 +9,11 @@
   cursor: pointer;
 }
 .my-blue-btn:hover {
-  background-color: #0747A6; /* Darker blue */
+  background-color: #0747A6;
 }
 
 .my-pink-btn {
-  background-color: #FFC0CB; /* Pink */
+  background-color: #FF69B4; /* Pink */
   color: white;
   border: none;
   border-radius: 3px;
@@ -23,11 +23,11 @@
   cursor: pointer;
 }
 .my-pink-btn:hover {
-  background-color: #FF69B4; /* Darker pink */
+  background-color: #FFC0CB;
 }
 
 .my-green-btn {
-  background-color: #32CD32; /* Green */
+  background-color: #228B22; /* Green */
   color: white;
   border: none;
   border-radius: 3px;
@@ -37,5 +37,19 @@
   cursor: pointer;
 }
 .my-green-btn:hover {
-  background-color: #228B22; /* Darker green */
+  background-color: #32CD32; 
+}
+
+.my-yellow-btn {
+  background-color: #FDDA0D; /* Yellow */
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.my-yellow-btn:hover {
+  background-color: #FFEA00; 
 }
