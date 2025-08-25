@@ -12,4 +12,32 @@
   background-color: #0747A6; /* Darker blue */
 }
 
+.my-pink-btn {
+  background-color: #32CD32; 
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.my-pink-btn:hover {
+  background-color: #FFC0CB;
+}
+
+.my-green-btn {
+  background-color: #FF00FF; 
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.my-green-btn:hover {
+  background-color: #90EE90;
+}
+
 
