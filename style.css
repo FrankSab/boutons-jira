@@ -13,7 +13,7 @@
 }
 
 .my-pink-btn {
-  background-color: #32CD32; 
+  background-color: #FFC0CB; /* Pink */
   color: white;
   border: none;
   border-radius: 3px;
@@ -23,11 +23,11 @@
   cursor: pointer;
 }
 .my-pink-btn:hover {
-  background-color: #FFC0CB;
+  background-color: #FF69B4; /* Darker pink */
 }
 
 .my-green-btn {
-  background-color: #FF00FF; 
+  background-color: #32CD32; /* Green */
   color: white;
   border: none;
   border-radius: 3px;
@@ -37,7 +37,5 @@
   cursor: pointer;
 }
 .my-green-btn:hover {
-  background-color: #90EE90;
+  background-color: #228B22; /* Darker green */
 }
-
-
