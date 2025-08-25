@@ -17,10 +17,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // Hardcoded Jira Cloud base URL (replace with your Jira instance)
     const jiraBase = "https://devfrancois.atlassian.net";
 
+    // Add warning note for description
+    const warningNote = "⚠ Veuillez NE PAS supprimer ce texte. Ajoutez vos détails ci-dessous.\n\n";
+
     // Fallback URL in case REST fails
     let fallbackUrl = `${jiraBase}/secure/CreateIssueDetails!init.jspa?pid=10001&issuetype=10003`;
     fallbackUrl += '&summary=' + encodeURIComponent(issueKey);
-    fallbackUrl += '&description=' + encodeURIComponent(issueKey);
+    fallbackUrl += '&description=' + encodeURIComponent(warningNote + issueKey);
 
     // If AdaptavistBridge.request is available, fetch issue fields
     if (window.AdaptavistBridge?.request) {
