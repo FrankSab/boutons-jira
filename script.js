@@ -67,7 +67,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Initialize buttons
   setupButton('my-blue-btn', 10003);
-  setupButton('my-pink-btn', 10010);
+  setupButton('my-pink-btn', 10013);
   setupButton('my-green-btn', 10012);
+  setupButton('my-yellow-btn', 10010);
 
 });
